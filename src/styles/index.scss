@@ -1,0 +1,10 @@
+@import './normalize.scss';
+@import './variables.scss';
+@import './layout.scss';
+@import './transition.scss';
+
+.page-container{
+    min-height: calc(100vh - 70px);
+    margin: 10px;
+    background: #ffffff;
+}
