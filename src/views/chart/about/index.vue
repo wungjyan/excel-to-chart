@@ -1,5 +1,5 @@
 <template>
-  <div>说明文档</div>
+  <div class="page-container">说明文档：待开发</div>
 </template>
 
 <script>

@@ -17,11 +17,33 @@ export default {
         },
         {
           label: '饼图',
-          name: 'pie'
+          name: 'pie',
+          disabled: true
         },
         {
           label: '环图',
-          name: 'ring'
+          name: 'ring',
+          disabled: true
+        },
+        {
+          label: '瀑布图',
+          name: 'waterfall',
+          disabled: true
+        },
+        {
+          label: '漏斗图',
+          name: 'funnel',
+          disabled: true
+        },
+        {
+          label: '雷达图',
+          name: 'radar',
+          disabled: true
+        },
+        {
+          label: '散点图',
+          name: 'scatter',
+          disabled: true
         }
       ],
       // 每种图表的默认设置
@@ -51,6 +73,16 @@ export default {
           extend: {
             series: { label: { show: false, position: 'top' } },
             'xAxis.0.axisLabel.rotate': 0
+          }
+        },
+        bar: {
+          settings: {
+            showLine: [],
+            stack: {},
+            dataOrder: {}
+          },
+          extend: {
+            series: { label: { show: false, position: 'right' } }
           }
         }
       }

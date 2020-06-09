@@ -12,17 +12,18 @@
     </el-upload>
     <el-divider>
       <i class="el-icon-lollipop"></i>
-      <span style="margin:0 10px;">{{sheetJson?`您当前上传文件是【${fileName}】，默认折线图，可切换图表`:'您还未上传excel哦，不可以选择图表'}}</span>
+      <span style="margin:0 10px;">{{sheetJson?`您当前操作文件是【${fileName}】，默认折线图，可切换图表`:'您还未上传excel哦，不可以选择图表'}}</span>
        <i class="el-icon-sugar"></i>
     </el-divider>
     <div style="text-align:center;">
-      <el-switch v-model="openTest" @change="handleOpenTest" inactive-text="启用测试数据"></el-switch>
+      <el-switch v-model="openTest" @change="handleOpenTest" inactive-text="启用测试数据" style="margin-right:10px;"></el-switch>
       <el-select v-model="chartType" :disabled="!sheetJson" clearable placeholder="选择图表类型">
         <el-option
           v-for="item in chartsList"
           :key="item.name"
           :label="item.label"
-          :value="item.name">
+          :value="item.name"
+          :disabled="item.disabled">
           <span style="float: left">{{ item.label }}</span>
           <span style="float: right; color: #8492a6; font-size: 13px">{{ item.name }}</span>
         </el-option>
@@ -38,7 +39,9 @@
             :width="width+'px'"
             :height="height+'px'"
             :extend="extend"
-            :settings="chartSettings">
+            :settings="chartSettings"
+            :toolbox="toolbox"
+            >
           </ve-chart>
         </el-card>
       </el-col>
@@ -61,6 +64,17 @@
               size="mini"
               clearable>
             </el-input>
+          </p>
+          <p>
+            <el-switch v-model="showTitle" inactive-text="是否显示标题："></el-switch>
+            <p v-show="showTitle">
+              <span class="setting-title">标题重命名：</span>
+              <el-input v-model="chartTitle" style="width:150px;" type="text" clearable size="mini" placeholder="默认是excel文件名"></el-input>
+            </p>
+            <p v-show="showTitle">
+              <span class="setting-title">标题颜色：</span>
+              <el-color-picker v-model="titleColor" size="mini"></el-color-picker>
+            </p>
           </p>
           <p>
             <el-switch v-model="legendVisible" inactive-text="是否显示图例："></el-switch>
@@ -92,6 +106,15 @@
             @changeLabelPosition="changeHisLabelPosition"
             @changeShowLine="changeShowLine"
             />
+            <bar-setting-card
+              v-if="chartType === 'bar'"
+              :columns="getColumns(sheetJson)"
+              @changeStack="changeBarStack"
+              @changeLabelShow="changeBarLabelShow"
+              @changeLabelPosition="changeBarLabelPosition"
+              @changeOrderItem="changeOrderItem"
+              @changeOrderType="changeOrderType"
+            />
         </el-card>
       </el-col>
     </el-row>
@@ -103,13 +126,16 @@ import XLSX from 'xlsx'
 import common from './mixins/common'
 import line from './mixins/line'
 import histogram from './mixins/histogram'
+import bar from './mixins/bar'
 import LineSettingCard from './components/LineSettingCard'
 import HistogramSettingCard from './components/HistogramSettingCard'
+import BarSettingCard from './components/BarSettingCard'
 export default {
-  mixins: [common, line, histogram],
+  mixins: [common, line, histogram, bar],
   components: {
     LineSettingCard,
-    HistogramSettingCard
+    HistogramSettingCard,
+    BarSettingCard
   },
   data () {
     return {
@@ -118,9 +144,17 @@ export default {
       chartType: 'line',
       width: '500',
       height: '400',
+      showTitle: false,
+      chartTitle: '',
+      titleColor: '#333',
       tooltipVisible: true,
       legendVisible: true,
-      rotate: 0
+      rotate: 0,
+      toolbox: {
+        feature: {
+          saveAsImage: {}
+        }
+      }
     }
   },
   computed: {
@@ -131,8 +165,15 @@ export default {
       }
     },
     extend () {
+      const title = {
+        show: this.showTitle,
+        text: this.chartTitle ? this.chartTitle : this.fileName,
+        textStyle: {
+          color: this.titleColor
+        }
+      }
       return {
-        title: { text: this.fileName },
+        title,
         ...this.chartItemOption[this.chartType].extend
       }
     },
