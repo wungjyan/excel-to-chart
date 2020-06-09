@@ -70,19 +70,28 @@
             <el-switch v-model="tooltipVisible" inactive-text="是否显示提示框："></el-switch>
             <span class="after-tip">关闭时鼠标移入不显示提示框</span>
           </p>
-          <!-- <p>
+          <p>
             <span class="setting-title">横坐标倾斜角度：</span>
-            <el-input-number v-model="rotate" :disabled="disableRotate" size="mini" :min="0" :max="180"></el-input-number>
+            <el-input-number v-model="rotate" @change="changeRotate" :disabled="disableRotate" size="mini" :min="0" :max="180"></el-input-number>
             <span class="after-tip">如果手动输入，失焦时才会改变</span>
-          </p> -->
+          </p>
         </el-card>
         <!-- 每个图表提供单独的设置块 -->
         <el-card>
           <line-setting-card
-            v-if="chartType==='line'"
+            v-if="chartType === 'line'"
             @changeStack="changeLineStack"
             @changeArea="changeArea"
-            @changeLabelShow="changeLabelShow"/>
+            @changeLabelShow="changeLabelShow"
+            @changeLabelPosition="changeLineLabelPosition"/>
+          <histogram-setting-card
+            v-if="chartType === 'histogram'"
+            :columns="getColumns(sheetJson)"
+            @changeStack="changeHisStack"
+            @changeLabelShow="changeHisLabelShow"
+            @changeLabelPosition="changeHisLabelPosition"
+            @changeShowLine="changeShowLine"
+            />
         </el-card>
       </el-col>
     </el-row>
@@ -92,11 +101,16 @@
 <script>
 import XLSX from 'xlsx'
 import common from './mixins/common'
-import lineMixin from './mixins/line'
+import line from './mixins/line'
+import histogram from './mixins/histogram'
 import LineSettingCard from './components/LineSettingCard'
+import HistogramSettingCard from './components/HistogramSettingCard'
 export default {
-  mixins: [common, lineMixin],
-  components: { LineSettingCard },
+  mixins: [common, line, histogram],
+  components: {
+    LineSettingCard,
+    HistogramSettingCard
+  },
   data () {
     return {
       sheetJson: null,
@@ -137,6 +151,9 @@ export default {
     }
   },
   methods: {
+    changeRotate (num) {
+      this.chartItemOption[this.chartType].extend['xAxis.0.axisLabel.rotate'] = num
+    },
     changeFile (file) {
       // console.log('file: ', file)
       try {
@@ -165,9 +182,6 @@ export default {
         })
       }
     },
-    clickTab (tab) {
-      console.log(tab)
-    },
     getSheetJsonArray (wb) {
       const sheetName = wb.SheetNames[0]
       const sheetJson = XLSX.utils.sheet_to_json(wb.Sheets[sheetName], {
@@ -184,10 +198,10 @@ export default {
     },
     getRows (sheetJson) {
       const arr = [...sheetJson]
-      const firstObj = arr.shift() // {A: 日期, B: 销量},
+      const firstObj = arr.shift()
       const rows = []
-      arr.forEach(item => { // {A: 一月, B: 100}
-        const keys = Object.keys(item) // [A,B]
+      arr.forEach(item => {
+        const keys = Object.keys(item)
         const _obj = {}
         keys.forEach(key => {
           _obj[firstObj[key]] = item[key]
@@ -213,7 +227,7 @@ export default {
   .el-divider{
     margin-top: 50px;
   }
-  .setting-title{
+  /deep/.setting-title{
     font-size: 14px;
     color: #303133;
     font-weight: 500;

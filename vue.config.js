@@ -1,4 +1,5 @@
 module.exports = {
+  publicPath: process.env.NODE_ENV === 'production' ? '/excel-to-chart/' : '/',
   devServer: {
     port: 9123,
     open: true

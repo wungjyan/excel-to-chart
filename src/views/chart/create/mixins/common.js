@@ -24,6 +24,7 @@ export default {
           name: 'ring'
         }
       ],
+      // 每种图表的默认设置
       chartItemOption: {
         line: {
           settings: {
@@ -34,19 +35,22 @@ export default {
             series: {
               label: {
                 normal: {
-                  show: false
+                  show: false,
+                  position: 'top'
                 }
               }
-            }
+            },
+            'xAxis.0.axisLabel.rotate': 0
           }
         },
         histogram: {
           settings: {
-            showLine: [], // 显示折线
+            showLine: [],
             stack: {}
           },
           extend: {
-            series: { label: { show: true, position: 'top' } }
+            series: { label: { show: false, position: 'top' } },
+            'xAxis.0.axisLabel.rotate': 0
           }
         }
       }

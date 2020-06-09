@@ -9,7 +9,15 @@
         <el-switch v-model="lineArea" @change="changeArea" inactive-text="是否开启面积块："></el-switch>
     </p>
     <p>
-        <el-switch v-model="lineLabelShow" @change="changeLabelShow" inactive-text="是否开启指标数值："></el-switch>
+        <el-switch v-model="lineLabelShow" @change="changeLabelShow" inactive-text="是否显示指标数值："></el-switch>
+    </p>
+    <p v-if="lineLabelShow">
+      <el-radio-group v-model="labelPosition" @change="changeLabelPosition">
+          <el-radio label="top">top</el-radio>
+          <el-radio label="right">right</el-radio>
+          <el-radio label="bottom">bottom</el-radio>
+          <el-radio label="left">left</el-radio>
+      </el-radio-group>
     </p>
     <!-- 计划 横轴数据类型设计 -->
   </div>
@@ -21,7 +29,8 @@ export default {
     return {
       lineStackStatus: false,
       lineArea: false,
-      lineLabelShow: false
+      lineLabelShow: false,
+      labelPosition: 'top'
     }
   },
   methods: {
@@ -33,6 +42,9 @@ export default {
     },
     changeLabelShow (val) {
       this.$emit('changeLabelShow', val)
+    },
+    changeLabelPosition (val) {
+      this.$emit('changeLabelPosition', val)
     }
   }
 }
