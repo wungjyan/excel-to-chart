@@ -17,8 +17,7 @@ export default {
         },
         {
           label: '饼图',
-          name: 'pie',
-          disabled: true
+          name: 'pie'
         },
         {
           label: '环图',
@@ -46,7 +45,7 @@ export default {
           disabled: true
         }
       ],
-      // 每种图表的默认设置
+      // 每种图表的默认设置（此配置针对 v-chart，也可以结合 echarts 文档）
       chartItemOption: {
         line: {
           settings: {
@@ -83,6 +82,14 @@ export default {
           },
           extend: {
             series: { label: { show: false, position: 'right' } }
+          }
+        },
+        pie: {
+          settings: {
+            roseType: false
+          },
+          extend: {
+            series: { label: { show: true, position: 'outside', formatter: '{b}' } }
           }
         }
       }

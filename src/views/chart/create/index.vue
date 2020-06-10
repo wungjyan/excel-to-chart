@@ -41,6 +41,7 @@
             :extend="extend"
             :settings="chartSettings"
             :toolbox="toolbox"
+            :title="title"
             >
           </ve-chart>
         </el-card>
@@ -115,6 +116,12 @@
               @changeOrderItem="changeOrderItem"
               @changeOrderType="changeOrderType"
             />
+            <pie-setting-card
+              v-if="chartType === 'pie'"
+              @changeLabelPosition="changePieLabelPosition"
+              @changeLabelFormatter="changeLabelFormatter"
+              @changeRoseType="changeRoseType"
+            />
         </el-card>
       </el-col>
     </el-row>
@@ -127,15 +134,18 @@ import common from './mixins/common'
 import line from './mixins/line'
 import histogram from './mixins/histogram'
 import bar from './mixins/bar'
+import pie from './mixins/pie'
 import LineSettingCard from './components/LineSettingCard'
 import HistogramSettingCard from './components/HistogramSettingCard'
 import BarSettingCard from './components/BarSettingCard'
+import PieSettingCard from './components/PieSettingCard'
 export default {
-  mixins: [common, line, histogram, bar],
+  mixins: [common, line, histogram, bar, pie],
   components: {
     LineSettingCard,
     HistogramSettingCard,
-    BarSettingCard
+    BarSettingCard,
+    PieSettingCard
   },
   data () {
     return {
@@ -165,6 +175,11 @@ export default {
       }
     },
     extend () {
+      return {
+        ...this.chartItemOption[this.chartType].extend
+      }
+    },
+    title () {
       const title = {
         show: this.showTitle,
         text: this.chartTitle ? this.chartTitle : this.fileName,
@@ -172,10 +187,7 @@ export default {
           color: this.titleColor
         }
       }
-      return {
-        title,
-        ...this.chartItemOption[this.chartType].extend
-      }
+      return title
     },
     chartSettings () {
       return {
