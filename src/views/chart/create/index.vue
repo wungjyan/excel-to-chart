@@ -105,26 +105,29 @@
             @changeStack="changeHisStack"
             @changeLabelShow="changeHisLabelShow"
             @changeLabelPosition="changeHisLabelPosition"
-            @changeShowLine="changeShowLine"
-            />
-            <bar-setting-card
-              v-if="chartType === 'bar'"
-              :columns="getColumns(sheetJson)"
-              @changeStack="changeBarStack"
-              @changeLabelShow="changeBarLabelShow"
-              @changeLabelPosition="changeBarLabelPosition"
-              @changeOrderItem="changeOrderItem"
-              @changeOrderType="changeOrderType"
-            />
-            <pie-setting-card
-              v-if="chartType === 'pie'"
-              @changeLabelPosition="changePieLabelPosition"
-              @changeLabelFormatter="changeLabelFormatter"
-              @changeRoseType="changeRoseType"
-            />
+            @changeShowLine="changeShowLine"/>
+          <bar-setting-card
+            v-if="chartType === 'bar'"
+            :columns="getColumns(sheetJson)"
+            @changeStack="changeBarStack"
+            @changeLabelShow="changeBarLabelShow"
+            @changeLabelPosition="changeBarLabelPosition"
+            @changeOrderItem="changeOrderItem"
+            @changeOrderType="changeOrderType"/>
+          <pie-setting-card
+            v-if="chartType === 'pie'"
+            @changeLabelPosition="changePieLabelPosition"
+            @changeLabelFormatter="changeLabelFormatter"
+            @changeRoseType="changeRoseType"/>
+          <ring-setting-card
+            v-if="chartType === 'ring'"
+            @changeLabelPosition="changeRingLabelPosition"
+            @changeLabelFormatter="changeRingLabelFormatter"
+            @changeRoseType="changeRingRoseType"/>
         </el-card>
       </el-col>
     </el-row>
+    <div @click="logRows">打印rows</div>
   </div>
 </template>
 
@@ -135,17 +138,20 @@ import line from './mixins/line'
 import histogram from './mixins/histogram'
 import bar from './mixins/bar'
 import pie from './mixins/pie'
+import ring from './mixins/ring'
 import LineSettingCard from './components/LineSettingCard'
 import HistogramSettingCard from './components/HistogramSettingCard'
 import BarSettingCard from './components/BarSettingCard'
 import PieSettingCard from './components/PieSettingCard'
+import RingSettingCard from './components/RingSettingCard'
 export default {
-  mixins: [common, line, histogram, bar, pie],
+  mixins: [common, line, histogram, bar, pie, ring],
   components: {
     LineSettingCard,
     HistogramSettingCard,
     BarSettingCard,
-    PieSettingCard
+    PieSettingCard,
+    RingSettingCard
   },
   data () {
     return {
@@ -196,7 +202,7 @@ export default {
       }
     },
     disableRotate () {
-      if (['line', 'histogram', 'bar'].includes(this.chartType)) {
+      if (['line', 'histogram', 'bar', 'waterfall'].includes(this.chartType)) {
         return false
       } else {
         return true
@@ -204,6 +210,9 @@ export default {
     }
   },
   methods: {
+    logRows () {
+      console.log(this.getRows(this.sheetJson))
+    },
     changeRotate (num) {
       this.chartItemOption[this.chartType].extend['xAxis.0.axisLabel.rotate'] = num
     },

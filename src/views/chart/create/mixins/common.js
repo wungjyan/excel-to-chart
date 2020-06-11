@@ -21,28 +21,7 @@ export default {
         },
         {
           label: '环图',
-          name: 'ring',
-          disabled: true
-        },
-        {
-          label: '瀑布图',
-          name: 'waterfall',
-          disabled: true
-        },
-        {
-          label: '漏斗图',
-          name: 'funnel',
-          disabled: true
-        },
-        {
-          label: '雷达图',
-          name: 'radar',
-          disabled: true
-        },
-        {
-          label: '散点图',
-          name: 'scatter',
-          disabled: true
+          name: 'ring'
         }
       ],
       // 每种图表的默认设置（此配置针对 v-chart，也可以结合 echarts 文档）
@@ -89,7 +68,19 @@ export default {
             roseType: false
           },
           extend: {
-            series: { label: { show: true, position: 'outside', formatter: '{b}' } }
+            series: {
+              label: { show: true, position: 'outside', formatter: '{b}' }
+            }
+          }
+        },
+        ring: {
+          settings: {
+            roseType: false
+          },
+          extend: {
+            series: {
+              label: { show: true, position: 'outside', formatter: '{b}' }
+            }
           }
         }
       }
