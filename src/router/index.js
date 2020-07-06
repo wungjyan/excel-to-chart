@@ -38,20 +38,20 @@ export const constantRoutes = [
     ]
   },
   {
-    path: '/chart',
+    path: '/old_chart',
     component: Layout,
     meta: { title: '图表生成', icon: 'grape' },
     alwaysShow: true,
-    redirect: '/chart/about',
+    redirect: '/old_chart/about',
     children: [
       {
         path: 'about',
-        component: () => import('@/views/chart/about/index'),
+        component: () => import('@/views/old_chart/about/index'),
         meta: { title: '必读系列' }
       },
       {
         path: 'create',
-        component: () => import('@/views/chart/create/index'),
+        component: () => import('@/views/old_chart/create/index'),
         meta: { title: '创建图表' }
       }
     ]
