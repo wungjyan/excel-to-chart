@@ -9,18 +9,22 @@
             :width="width+'px'"
             :height="height+'px'"
             :title="title"
+            :legendVisible="legendVisible"
+            :tooltipVisible="tooltipVisible"
             style="margin:0 auto;"
           ></ve-line>
         </el-card>
       </el-col>
       <el-col :span="8">
         <common-setting
-          @changeWidth="changeWidth"
-          @changeHeight="changeHeight"
-          @changeTitleStatus="changeTitleStatus"
-          @changeTitle="changeTitle"
-          @changeTitleColor="changeTitleColor"
-          @changeRotate="changeRotate"/>
+          @change-width="changeWidth"
+          @change-height="changeHeight"
+          @change-title-status="changeTitleStatus"
+          @change-title="changeTitle"
+          @change-title-color="changeTitleColor"
+          @change-rotate="changeRotate"
+          @change-legend-status="changeLegendStatus"
+          @change-tooltip-status="changeTooltipStatus"/>
         <el-card>
           <p>
             <el-switch v-model="stackStatus" @change="changeStack" inactive-text="是否开启堆叠："></el-switch>
@@ -66,6 +70,8 @@ export default {
       showTitle: false,
       chartTitle: '',
       titleColor: '#333',
+      legendVisible: true,
+      tooltipVisible: true,
       settings: {
         stack: {},
         area: false
@@ -139,6 +145,12 @@ export default {
     },
     changeRotate (r) {
       this.extend.xAxis.axisLabel.rotate = r
+    },
+    changeLegendStatus (l) {
+      this.legendVisible = l
+    },
+    changeTooltipStatus (t) {
+      this.tooltipVisible = t
     }
   }
 }

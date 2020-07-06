@@ -30,7 +30,7 @@
       </el-select>
     </div>
     <div v-if="sheetJson" style="margin-top:30px;overflow:hidden;">
-      <m-line :chart-data="chartData" :file-name="fileName"></m-line>
+      <component :is="currentChartComponent" :chart-data="chartData" :file-name="fileName"></component>
     </div>
 
   </div>
@@ -40,8 +40,10 @@
 import XLSX from 'xlsx'
 import { getColumns, getRows } from '@/utils/index'
 import MLine from '@/components/Charts/Line/index'
+import MHistogram from '@/components/Charts/Histogram/index'
+import MBar from '@/components/Charts/Bar/index'
 export default {
-  components: { MLine },
+  components: { MLine, MHistogram, MBar },
   data () {
     return {
       sheetJson: null,
@@ -78,6 +80,9 @@ export default {
         columns: getColumns(this.sheetJson),
         rows: getRows(this.sheetJson)
       }
+    },
+    currentChartComponent () {
+      return 'm-' + this.chartType
     }
   },
   methods: {

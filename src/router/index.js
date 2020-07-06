@@ -24,6 +24,20 @@ export const constantRoutes = [
     ]
   },
   {
+    path: '/charts',
+    component: Layout,
+    alwaysShow: true,
+    meta: { title: '图表功能', icon: 'grape' },
+    redirect: '/charts/create',
+    children: [
+      {
+        path: 'create',
+        component: () => import('@/views/charts/create/index'),
+        meta: { title: '创建图表' }
+      }
+    ]
+  },
+  {
     path: '/chart',
     component: Layout,
     meta: { title: '图表生成', icon: 'grape' },
