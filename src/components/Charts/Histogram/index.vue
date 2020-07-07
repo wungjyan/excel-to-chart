@@ -1,54 +1,72 @@
 <template>
-    <div class="line-container">
-      <el-col :span="16">
-        <el-card>
-          <ve-histogram
-            :data="chartData"
-            :settings="settings"
-            :extend="extend"
-            :width="width+'px'"
-            :height="height+'px'"
-            :title="title"
-            :legendVisible="legendVisible"
-            :tooltipVisible="tooltipVisible"
-            style="margin:0 auto;"
-          ></ve-histogram>
-        </el-card>
-      </el-col>
-      <el-col :span="8">
-        <common-setting
-          @change-width="changeWidth"
-          @change-height="changeHeight"
-          @change-title-status="changeTitleStatus"
-          @change-title="changeTitle"
-          @change-title-color="changeTitleColor"
-          @change-rotate="changeRotate"
-          @change-legend-status="changeLegendStatus"
-          @change-tooltip-status="changeTooltipStatus"/>
-        <el-card>
-          <p>
-            <el-switch v-model="stackStatus" @change="changeStack" inactive-text="是否开启堆叠："></el-switch>
-          </p>
-          <p>
-            <el-switch v-model="labelShow" @change="changeLabelShow" inactive-text="是否显示指标数值："></el-switch>
-          </p>
-          <p v-if="labelShow">
-            <el-radio-group v-model="labelPosition" @change="changeLabelPosition">
-              <el-radio label="top">top</el-radio>
-              <el-radio label="right">right</el-radio>
-              <el-radio label="bottom">bottom</el-radio>
-              <el-radio label="left">left</el-radio>
-            </el-radio-group>
-          </p>
-          <p>
-            <span class="setting-title">选择下面的项可变成折线图：</span>
-            <el-checkbox-group v-model="showLine" @change="changeShowLine" style="margin-top:5px;">
-                <el-checkbox v-for="item in metrics" :key="item" :label="item"></el-checkbox>
-            </el-checkbox-group>
-          </p>
-        </el-card>
-      </el-col>
-    </div>
+  <div class="line-container">
+    <el-col :span="16">
+      <el-card>
+        <ve-histogram
+          :data="chartData"
+          :settings="settings"
+          :extend="extend"
+          :width="width + 'px'"
+          :height="height + 'px'"
+          :title="title"
+          :legendVisible="legendVisible"
+          :tooltipVisible="tooltipVisible"
+          style="margin:0 auto;"
+        ></ve-histogram>
+      </el-card>
+    </el-col>
+    <el-col :span="8">
+      <common-setting
+        chart-type="histogram"
+        @change-width="changeWidth"
+        @change-height="changeHeight"
+        @change-title-status="changeTitleStatus"
+        @change-title="changeTitle"
+        @change-title-color="changeTitleColor"
+        @change-rotate="changeRotate"
+        @change-legend-status="changeLegendStatus"
+        @change-tooltip-status="changeTooltipStatus"
+      />
+      <el-card>
+        <p>
+          <el-switch
+            v-model="stackStatus"
+            @change="changeStack"
+            inactive-text="是否开启堆叠："
+          ></el-switch>
+        </p>
+        <p>
+          <el-switch
+            v-model="labelShow"
+            @change="changeLabelShow"
+            inactive-text="是否显示指标数值："
+          ></el-switch>
+        </p>
+        <p v-if="labelShow">
+          <el-radio-group v-model="labelPosition" @change="changeLabelPosition">
+            <el-radio label="top">top</el-radio>
+            <el-radio label="right">right</el-radio>
+            <el-radio label="bottom">bottom</el-radio>
+            <el-radio label="left">left</el-radio>
+          </el-radio-group>
+        </p>
+        <p>
+          <span class="setting-title">选择下面的项可变成折线图：</span>
+          <el-checkbox-group
+            v-model="showLine"
+            @change="changeShowLine"
+            style="margin-top:5px;"
+          >
+            <el-checkbox
+              v-for="item in metrics"
+              :key="item"
+              :label="item"
+            ></el-checkbox>
+          </el-checkbox-group>
+        </p>
+      </el-card>
+    </el-col>
+  </div>
 </template>
 
 <script>

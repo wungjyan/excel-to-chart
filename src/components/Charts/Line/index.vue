@@ -17,6 +17,7 @@
       </el-col>
       <el-col :span="8">
         <common-setting
+          chart-type="line"
           @change-width="changeWidth"
           @change-height="changeHeight"
           @change-title-status="changeTitleStatus"

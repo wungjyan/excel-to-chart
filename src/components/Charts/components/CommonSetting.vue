@@ -39,7 +39,7 @@
       <el-switch v-model="tooltipVisible" @change="changeTooltipStatus" inactive-text="是否显示提示框："></el-switch>
       <span class="after-tip">关闭时鼠标移入不显示提示框</span>
     </p>
-    <p>
+    <p v-show="showRotate">
       <span class="setting-title">横坐标倾斜角度：</span>
       <el-input-number v-model="rotate" @change="changeRotate" size="mini" :min="0" :max="180"></el-input-number>
       <span class="after-tip">如果手动输入，失焦时才会改变</span>
@@ -49,6 +49,9 @@
 
 <script>
 export default {
+  props: {
+    chartType: String
+  },
   data () {
     return {
       width: '500',
@@ -59,6 +62,11 @@ export default {
       rotate: 0,
       legendVisible: true,
       tooltipVisible: true
+    }
+  },
+  computed: {
+    showRotate () {
+      return ['line', 'histogram', 'bar'].includes(this.chartType)
     }
   },
   methods: {

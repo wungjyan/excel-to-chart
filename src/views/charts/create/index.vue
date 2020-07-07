@@ -18,15 +18,19 @@
     <div style="text-align:center;">
       <el-switch v-model="openTest" @change="changeTestStatus" inactive-text="启用测试数据" style="margin-right:10px;"></el-switch>
       <el-select v-model="chartType" :disabled="!sheetJson" clearable placeholder="选择图表类型">
-        <el-option
-          v-for="item in chartsList"
-          :key="item.name"
-          :label="item.label"
-          :value="item.name"
-          :disabled="item.disabled">
-          <span style="float: left">{{ item.label }}</span>
+         <el-option-group
+          v-for="group in chartsList"
+          :key="group.label"
+          :label="group.label">
+           <el-option
+            v-for="item in group.options"
+            :key="item.name"
+            :label="item.label"
+            :value="item.name">
+           <span style="float: left">{{ item.label }}</span>
           <span style="float: right; color: #8492a6; font-size: 13px">{{ item.name }}</span>
-        </el-option>
+          </el-option>
+         </el-option-group>
       </el-select>
     </div>
     <div v-if="sheetJson" style="margin-top:30px;overflow:hidden;">
@@ -42,8 +46,9 @@ import { getColumns, getRows } from '@/utils/index'
 import MLine from '@/components/Charts/Line/index'
 import MHistogram from '@/components/Charts/Histogram/index'
 import MBar from '@/components/Charts/Bar/index'
+import MPie from '@/components/Charts/Pie/index'
 export default {
-  components: { MLine, MHistogram, MBar },
+  components: { MLine, MHistogram, MBar, MPie },
   data () {
     return {
       sheetJson: null,
@@ -52,24 +57,34 @@ export default {
       openTest: false, // 启用测试数据
       chartsList: [
         {
-          label: '折线图',
-          name: 'line'
+          label: '可多列数据',
+          options: [
+            {
+              label: '折线图',
+              name: 'line'
+            },
+            {
+              label: '柱状图',
+              name: 'histogram'
+            },
+            {
+              label: '条形图',
+              name: 'bar'
+            }
+          ]
         },
         {
-          label: '柱状图',
-          name: 'histogram'
-        },
-        {
-          label: '条形图',
-          name: 'bar'
-        },
-        {
-          label: '饼图',
-          name: 'pie'
-        },
-        {
-          label: '环图',
-          name: 'ring'
+          label: '只显示单列数据',
+          options: [
+            {
+              label: '饼图',
+              name: 'pie'
+            },
+            {
+              label: '环图',
+              name: 'ring'
+            }
+          ]
         }
       ]
     }
