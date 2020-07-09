@@ -1,5 +1,5 @@
 <template>
-  <div class="line-container">
+  <div class="histogram-container">
     <el-col :span="16">
       <el-card>
         <ve-histogram

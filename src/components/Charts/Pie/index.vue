@@ -1,5 +1,5 @@
 <template>
-  <div class="line-container">
+  <div class="pie-container">
     <el-col :span="16">
       <el-card>
         <ve-pie
@@ -88,6 +88,11 @@ export default {
       extend: {
         series: {
           label: { show: true, position: 'outside', formatter: '{b}' }
+        },
+        toolbox: {
+          feature: {
+            saveAsImage: {}
+          }
         }
       }
     }

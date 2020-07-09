@@ -66,7 +66,7 @@ export default {
   },
   computed: {
     showRotate () {
-      return ['line', 'histogram', 'bar'].includes(this.chartType)
+      return ['line', 'histogram', 'bar', 'scatter'].includes(this.chartType)
     }
   },
   methods: {

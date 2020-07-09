@@ -47,8 +47,10 @@ import MLine from '@/components/Charts/Line/index'
 import MHistogram from '@/components/Charts/Histogram/index'
 import MBar from '@/components/Charts/Bar/index'
 import MPie from '@/components/Charts/Pie/index'
+import MRing from '@/components/Charts/Ring/index'
+import MScatter from '@/components/Charts/Scatter/index'
 export default {
-  components: { MLine, MHistogram, MBar, MPie },
+  components: { MLine, MHistogram, MBar, MPie, MRing, MScatter },
   data () {
     return {
       sheetJson: null,
@@ -57,7 +59,7 @@ export default {
       openTest: false, // 启用测试数据
       chartsList: [
         {
-          label: '可多列数据',
+          label: '可显示多列数据',
           options: [
             {
               label: '折线图',
@@ -70,6 +72,10 @@ export default {
             {
               label: '条形图',
               name: 'bar'
+            },
+            {
+              label: '散点图',
+              name: 'scatter'
             }
           ]
         },
