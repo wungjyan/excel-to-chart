@@ -31,31 +31,36 @@ export const constantRoutes = [
     redirect: '/charts/create',
     children: [
       {
+        path: 'about',
+        component: () => import('@/views/charts/about/index'),
+        meta: { title: '说明书' }
+      },
+      {
         path: 'create',
         component: () => import('@/views/charts/create/index'),
         meta: { title: '创建图表' }
       }
     ]
   },
-  {
-    path: '/old_chart',
-    component: Layout,
-    meta: { title: '图表生成', icon: 'grape' },
-    alwaysShow: true,
-    redirect: '/old_chart/about',
-    children: [
-      {
-        path: 'about',
-        component: () => import('@/views/old_chart/about/index'),
-        meta: { title: '必读系列' }
-      },
-      {
-        path: 'create',
-        component: () => import('@/views/old_chart/create/index'),
-        meta: { title: '创建图表' }
-      }
-    ]
-  },
+  // {
+  //   path: '/old_chart',
+  //   component: Layout,
+  //   meta: { title: '图表生成', icon: 'grape' },
+  //   alwaysShow: true,
+  //   redirect: '/old_chart/about',
+  //   children: [
+  //     {
+  //       path: 'about',
+  //       component: () => import('@/views/old_chart/about/index'),
+  //       meta: { title: '必读系列' }
+  //     },
+  //     {
+  //       path: 'create',
+  //       component: () => import('@/views/old_chart/create/index'),
+  //       meta: { title: '创建图表' }
+  //     }
+  //   ]
+  // },
   // 404 page must be placed at the end !!!
   { path: '*', redirect: '/404', hidden: true }
 ]
