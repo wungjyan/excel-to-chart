@@ -42,6 +42,13 @@ export const constantRoutes = [
       }
     ]
   },
+  {
+    path: '/',
+    component: Layout,
+    alwaysShow: true,
+    href: 'https://github.com/wungjyan/excel-to-chart',
+    meta: { title: '源码', icon: 'pear' }
+  },
   // {
   //   path: '/old_chart',
   //   component: Layout,
