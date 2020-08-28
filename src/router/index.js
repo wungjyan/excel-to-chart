@@ -43,6 +43,20 @@ export const constantRoutes = [
     ]
   },
   {
+    path: '/excel',
+    component: Layout,
+    alwaysShow: true,
+    meta: { title: 'excel 功能', icon: 'watermelon' },
+    redirect: '/excel/create',
+    children: [
+      {
+        path: 'create',
+        component: () => import('@/views/excel/index.vue'),
+        meta: { title: '创建表格' }
+      }
+    ]
+  },
+  {
     path: '/',
     component: Layout,
     alwaysShow: true,
